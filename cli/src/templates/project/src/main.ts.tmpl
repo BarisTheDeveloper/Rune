@@ -1,0 +1,22 @@
+import { rune } from "@rune/api";
+
+async function main() {
+  const output = document.getElementById("output")!;
+
+  // Get Rune version
+  const version = await rune.system.version();
+  output.textContent = `Rune v${version} ready.`;
+
+  // Example: read current directory
+  try {
+    const files = await rune.fs.readDir(".");
+    output.textContent += `\n\nFiles: ${files.length} items`;
+    for (const f of files.slice(0, 5)) {
+      output.textContent += `\n  ${f.isDir ? "[D]" : "[F]"} ${f.name}`;
+    }
+  } catch (err) {
+    output.textContent += `\n\nError: ${err}`;
+  }
+}
+
+main();
